@@ -1,0 +1,13 @@
+name: "victordogo.github.io"
+title: "Victor Dogo"
+description: |
+  Victor Dogo
+base_url: https://victordogo.github.io/
+output_dir: "_site"
+navbar:
+  right:
+    - text: "Início"
+      href: index.html
+    - text: "Sobre"
+      href: about.html
+output: distill::distill_article

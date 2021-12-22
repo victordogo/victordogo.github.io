@@ -1,0 +1,18 @@
+---
+title: "Victor Dogo"
+image: "img/profile.png"
+links:
+  - label: '<i class="fab fa-linkedin"></i> LinkedIn'
+    url: "https://www.linkedin.com/in/victordogo/"
+  - label: '<i class="fab fa-twitter"></i> Twitter'
+    url: "https://twitter.com/victor_dogo"
+  - label: '<i class="fab fa-github"></i> GitHub'
+    url: "https://github.com/victordogo/"
+  - label: '<i class="fas fa-envelope"></i> Email'
+    url: "mailto:victordogo@gmail.com"
+output:
+  postcards::jolla
+site: distill::distill_website
+---
+
+Estudante de Estatística 017 (UFSCar - Universidade Federal de São Carlos), entusiasta de programação para Ciência de Dados e apaixonado por #rstats (mas com lugar no coração para Python e outras linguagens também). 
