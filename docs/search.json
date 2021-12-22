@@ -5,28 +5,28 @@
       "title": "Sobre",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-12-22T17:27:38-03:00"
+      "last_modified": "2021-12-22T17:34:45-03:00"
     },
     {
       "path": "blog.html",
       "title": "Blog",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-12-22T17:27:44-03:00"
+      "last_modified": "2021-12-22T17:34:47-03:00"
     },
     {
       "path": "index.html",
       "title": "Victor Dogo",
       "author": [],
       "contents": "\r\n\r\n          \r\n          \r\n          Victor Dogo\r\n          \r\n          \r\n          Início\r\n          Sobre\r\n          Blog\r\n          Projetos\r\n          ☰\r\n          \r\n          \r\n      \r\n        \r\n          \r\n            Victor Dogo\r\n          \r\n          \r\n            \r\n              Estudante de Estatística 017 (UFSCar - Universidade Federal de São Carlos), entusiasta de programação para Ciência de Dados e apaixonado por #rstats (mas com lugar no coração para Python e outras linguagens também).\r\n              Interesses: Estatística Computacional, Ciência de Dados, Criação de Pacotes em R e Visualização de Dados.\r\n            \r\n            \r\n              Estudante de Estatística 017 (UFSCar - Universidade Federal de São Carlos), entusiasta de programação para Ciência de Dados e apaixonado por #rstats (mas com lugar no coração para Python e outras linguagens também).\r\n              Interesses: Estatística Computacional, Ciência de Dados, Criação de Pacotes em R e Visualização de Dados.\r\n            \r\n          \r\n\r\n          \r\n            \r\n              \r\n                  \r\n                    \r\n                       LinkedIn\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                       Twitter\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                       GitHub\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                       Email\r\n                    \r\n                  \r\n                \r\n                              \r\n          \r\n\r\n          \r\n            \r\n              \r\n                                \r\n                  \r\n                     LinkedIn\r\n                  \r\n                \r\n                                \r\n                  \r\n                     Twitter\r\n                  \r\n                \r\n                                \r\n                  \r\n                     GitHub\r\n                  \r\n                \r\n                                \r\n                  \r\n                     Email\r\n                  \r\n                \r\n                              \r\n            \r\n          \r\n        \r\n      \r\n    \r\n\r\n    \r\n    \r\n    \r\n          Contato: victordogo@gmail.com ou através do  GitHub e  Twitter.\r\n          Este site foi criado com o pacote Distill para R Markdown no RStudio.\r\n          \r\n          \r\n\r\n    \r\n  ",
-      "last_modified": "2021-12-22T17:27:30-03:00"
+      "last_modified": "2021-12-22T17:34:47-03:00"
     },
     {
       "path": "projects.html",
       "title": "Projetos",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-12-22T17:28:08-03:00"
+      "last_modified": "2021-12-22T17:34:48-03:00"
     }
   ],
   "collections": ["posts/posts.json"]
