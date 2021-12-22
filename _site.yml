@@ -1,9 +1,9 @@
 name: "victordogo.github.io"
 title: "Victor Dogo"
 description: |
-  Victor Dogo
+  Projetos pessoais (a maioria com R) e coisas interessantes.
 base_url: https://victordogo.github.io/
-output_dir: "_site"
+output_dir: "docs"
 navbar:
   right:
     - text: "Início"
