@@ -6,6 +6,11 @@
     <atom:link href="https://victordogo.github.io/blog.xml" rel="self" type="application/rss+xml"/>
     <description>Projetos pessoais (a maioria com R) e coisas interessantes.
 </description>
+    <image>
+      <title>Victor Dogo</title>
+      <url>https://victordogo.github.io/img/favicon.ico</url>
+      <link>https://victordogo.github.io</link>
+    </image>
     <generator>Distill</generator>
     <lastBuildDate>Wed, 22 Dec 2021 00:00:00 +0000</lastBuildDate>
   </channel>

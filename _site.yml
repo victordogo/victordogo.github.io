@@ -4,6 +4,7 @@ description: |
   Projetos pessoais (a maioria com R) e coisas interessantes.
 base_url: https://victordogo.github.io
 output_dir: "docs"
+favicon: img/favicon.ico
 navbar:
   right:
     - text: "Início"
