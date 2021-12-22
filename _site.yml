@@ -5,7 +5,6 @@ description: |
 base_url: https://victordogo.github.io
 output_dir: "docs"
 favicon: img/favicon.ico
-creative_commons: CC BY
 navbar:
   logo:
     image: img/logo.png
