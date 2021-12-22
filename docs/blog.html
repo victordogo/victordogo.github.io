@@ -91,6 +91,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <title>Victor Dogo: Blog</title>
 
 
+  <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="img/favicon.ico"/>
 
 
@@ -1787,8 +1788,58 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <script src="site_libs/webcomponents-2.0.0/webcomponents.js"></script>
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
+  <style type="text/css">
+  /* Importando Fontes */
+
+  @import url('https://fonts.googleapis.com/css?family=Balsamiq+Sans|JetBrains+Mono:400,400i,700,700i');
+
+  /* Header Fonts */
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Balsamiq Sans";
+  }
+
+  /* Body Font */
+
+  body {
+    font-family: "JetBrains Mono";
+    color: #1f1f1f;
+  }
+
+  /* --------------Navbar-------------------- */
+
+  .distill-site-header{
+    background-color: #3183c5 ;
+    font-size: 20px;
+    font-family: "Balsamiq Sans";
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+
+  /* -------------Footer------------------*/
+
+  .distill-site-footer {
+    background-color: #3183c5;
+    margin-top: 0px;
+    padding: 2px 0px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-family: "Balsamiq Sans";
+  }
+
+  /* -------------Appendix------------------*/
+
+  d-appendix {
+    background-color: #3183c5;
+    border-top: none !important;
+  }
+
+
+  </style>
   <!--/radix_placeholder_site_in_header-->
 
+  <link rel="stylesheet" href="styles.css" type="text/css"/>
 
 </head>
 
@@ -1805,6 +1856,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
+<a class="logo">
+<img src="img/logo.png" alt="Logo"/>
+</a>
 <a href="index.html" class="title">Victor Dogo</a>
 </div>
 <div class="nav-right">
@@ -1983,12 +2037,14 @@ function init_posts_list() {
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-<p>Contato: victordogo@gmail.com ou através do <a href="https://github.com/victordogo/"> GitHub</a> e <a href="https://twitter.com/victor_dogo"> Twitter</a>.</p>
-<p>Este site foi criado com o pacote Distill para R Markdown no RStudio.</p>
+<p>Contato: victordogo@gmail.com ou através do <a href="https://github.com/victordogo/"> GitHub</a> e <a href="https://twitter.com/victor_dogo"> Twitter</a>. Este site foi criado com o pacote Distill para R Markdown no RStudio.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 
