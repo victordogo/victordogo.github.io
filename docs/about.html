@@ -90,6 +90,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <title>Victor Dogo: Sobre</title>
 
 
+  <link rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/"/>
   <link rel="icon" type="image/vnd.microsoft.icon" href="img/favicon.ico"/>
 
 
@@ -102,6 +103,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Victor Dogo: Sobre"/>
+  <meta property="twitter:site" content="@victor_dogo"/>
+  <meta property="twitter:creator" content="@victor_dogo"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
@@ -1787,9 +1790,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <script src="site_libs/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
   <style type="text/css">
-  /* Importando Fontes */
+  /* base variables */
 
+  /* Edit the CSS properties in this file to create a custom
+     Distill theme. Only edit values in the right column
+     for each row; values shown are the CSS defaults.
+     To return any property to the default,
+     you may set its value to: unset
+     All rows must end with a semi-colon.                      */
+
+  /* Optional: embed custom fonts here with `@import`
+  */
   @import url('https://fonts.googleapis.com/css?family=Balsamiq+Sans|JetBrains+Mono:400,400i,700,700i');
+  /* This must remain at the top of this file.                 */
 
   /* Header Fonts */
 
@@ -1804,7 +1817,39 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     color: #1f1f1f;
   }
 
-  /* --------------Navbar-------------------- */
+  /*-- ARTICLE METADATA --*/
+  d-byline {
+    --heading-size:    0.6rem;
+    --heading-color:   #ffffff;
+    --body-size:       0.8rem;
+    --body-color:      #ffffff;
+  }
+
+  /*-- ARTICLE TABLE OF CONTENTS --*/
+  .d-contents {
+    --heading-size:    18px;
+    --contents-size:   13px;
+    font-family: "Balsamiq Sans";
+  }
+
+  /*-- ARTICLE APPENDIX --*/
+  d-appendix {
+    --heading-size:    15px;
+    --heading-color:   #ffffff ;
+    --text-size:       0.8em;
+    --text-color:      #ffffff ;
+    background-color: #313139;
+    color: #ffffff ;
+    border-top: none !important;
+    font-family:"JetBrains Mono" ;
+  }
+
+  d-appendix h3 {
+    color: #ffffff ;
+  }
+
+  /*-- WEBSITE HEADER + FOOTER --*/
+  /* These properties only apply to Distill sites and blogs  */
 
   .distill-site-header{
     background-color: #313139;
@@ -1814,9 +1859,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     text-transform: uppercase;
   }
 
-
-  /* -------------Footer------------------*/
-
   .distill-site-footer {
     background-color: #313139;
     margin-top: 0px;
@@ -1824,15 +1866,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-size: 13px;
     letter-spacing: 1px;
     font-family: "Balsamiq Sans";
-  }
-
-  /* -------------Appendix------------------*/
-
-  d-appendix {
-    background-color: #313139;
-    border-top: none !important;
-    color: #ffffff ;
-    font-family:"JetBrains Mono" ;
   }
 
   /*
@@ -1885,6 +1918,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
       width: 300px;
     }
 
+  }
+
+  d-title h1,
+  d-article h2,
+  .posts-list .description h2,
+  .posts-list > h1 {
+      font-family: "Balsamiq Sans";
+  }
+  .posts-list .description p {
+    font-family: "JetBrains Mono";
   }
 
   </style>
@@ -1990,11 +2033,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="reuse">Reuse</h3>
+<p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <div class="distill-site-nav distill-site-footer">
-<p>Contato: victordogo@gmail.com ou através do <a href="https://github.com/victordogo/"> GitHub</a>. Este site foi criado com o pacote Distill para R Markdown no RStudio. <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licença Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Este site está licenciado com uma Licença <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Atribuição 4.0 Internacional</a>.</p>
+<p>Contato: victordogo@gmail.com ou através do <a href="https://github.com/victordogo/"> GitHub</a>. Este site foi criado com o pacote Distill para R Markdown no RStudio. <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Licença Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a><br />Este blog possui uma Licença <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Atribuição-CompartilhaIgual 4.0 Internacional</a>.</p>
 </div>
 <!--/radix_placeholder_navigation_after_body-->
 

@@ -1,6 +1,16 @@
-/* Importando Fontes */
+/* base variables */
 
+/* Edit the CSS properties in this file to create a custom
+   Distill theme. Only edit values in the right column
+   for each row; values shown are the CSS defaults.
+   To return any property to the default,
+   you may set its value to: unset
+   All rows must end with a semi-colon.                      */
+
+/* Optional: embed custom fonts here with `@import`
+*/
 @import url('https://fonts.googleapis.com/css?family=Balsamiq+Sans|JetBrains+Mono:400,400i,700,700i');
+/* This must remain at the top of this file.                 */
 
 /* Header Fonts */
 
@@ -15,7 +25,39 @@ body {
   color: #1f1f1f;
 }
 
-/* --------------Navbar-------------------- */
+/*-- ARTICLE METADATA --*/
+d-byline {
+  --heading-size:    0.6rem;
+  --heading-color:   #ffffff;
+  --body-size:       0.8rem;
+  --body-color:      #ffffff;
+}
+
+/*-- ARTICLE TABLE OF CONTENTS --*/
+.d-contents {
+  --heading-size:    18px;
+  --contents-size:   13px;
+  font-family: "Balsamiq Sans";
+}
+
+/*-- ARTICLE APPENDIX --*/
+d-appendix {
+  --heading-size:    15px;
+  --heading-color:   #ffffff ;
+  --text-size:       0.8em;
+  --text-color:      #ffffff ;
+  background-color: #313139;
+  color: #ffffff ;
+  border-top: none !important;
+  font-family:"JetBrains Mono" ;
+}
+
+d-appendix h3 {
+  color: #ffffff ;
+}
+
+/*-- WEBSITE HEADER + FOOTER --*/
+/* These properties only apply to Distill sites and blogs  */
 
 .distill-site-header{
   background-color: #313139;
@@ -25,9 +67,6 @@ body {
   text-transform: uppercase;
 }
 
-
-/* -------------Footer------------------*/
-
 .distill-site-footer {
   background-color: #313139;
   margin-top: 0px;
@@ -35,15 +74,6 @@ body {
   font-size: 13px;
   letter-spacing: 1px;
   font-family: "Balsamiq Sans";
-}
-
-/* -------------Appendix------------------*/
-
-d-appendix {
-  background-color: #313139;
-  border-top: none !important;
-  color: #ffffff ;
-  font-family:"JetBrains Mono" ;
 }
 
 /*
@@ -96,4 +126,14 @@ https://ijeamaka-anyene.netlify.app
     width: 300px;
   }
 
+}
+
+d-title h1,
+d-article h2,
+.posts-list .description h2,
+.posts-list > h1 {
+    font-family: "Balsamiq Sans";
+}
+.posts-list .description p {
+  font-family: "JetBrains Mono";
 }

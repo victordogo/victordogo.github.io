@@ -1,0 +1,493 @@
+---
+title: "Metallica - dos Shows de Garagem para o Mundo"
+description: |
+  Uma análise das turnês utilizando R.
+author:
+  - name: Victor Dogo
+    url: https://www.linkedin.com/in/victordogo/
+date: 2021-12-23
+output:
+  distill::distill_article:
+    self_contained: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+```
+
+# Introdução
+
+A banda Metallica surgiu no comecinho dos anos 80, inspirando-se na Nova Onda do Heavy Metal Britânico, uma corrente surgida anos antes e que compreende bandas como Iron Maiden, Judas Priest, Venom, Def Leppard, Motorhead e tantas outros nomes que, se você não estiver habituade, vão parecer mais nomes de Pokémon do que qualquer outra coisa. Mas o ponto não é esse!
+
+Desde que surgiu, a banda revolucionou a música e deu base para todo um gênero, fazendo diversas turnês pelo mundo e sendo o [único conjunto/artista a ter tocado em todos os 7 continentes do mundo.](http://g1.globo.com/musica/noticia/2013/12/metallica-toca-abaixo-de-zero-em-show-inusitado-na-antartida.html). 
+
+Com tantos anos de estrada, é da curiosidade de alguém (como nós, estatísticos e cientistas de dados talvez) compreender em números como foram essas turnês, em que locais seus shows ocorreram e outras características de interesse.
+
+# O Banco de Dados
+
+O banco de dados utilizado para este trabalho encontra-se disponível no Kaggle, e chama-se [Metallica Tour History](https://www.kaggle.com/kitsamho/metallica-tour-history). A base, após a limpeza, consiste em 23 atributos de 2070 shows feitos pela banda ao longo do tempo. As variáveis presentes são:
+
+* **Date:** Data do show no formato "aaaa-mm-dd";
+* **Year:** Ano de ocorrência do show;
+* **Festival:** Festival onde o show ocorreu, se houver;
+* **Tour:** Turnê onde o show ocorreu, se houver;
+* **Country:** País onde o show ocorreu;
+* **Set:** Setlist principal do show, concatenado uma string dividida por vírgulas;
+* **Encores:** Músicas extras do show, ou seja, músicas que não estavam na setlist mas foram tocadas ao final do show;
+* **Set_Length:** Número de músicas da setlist;
+* **Disco_Count:** Número de músicas de determinado disco tocadas no show.
+
+Falando em discos, é interessante apresentarmos quais discos a banda lançou ao longo dos anos para aqueles que nunca ouviram falar dela. Eles estão apresentados à seguir:
+
+```{r}
+# Lendo banco de dados
+
+metallica <- readRDS("data/metallica.rds")
+
+# Criando tabela com discos, capa e ano de lançamento
+
+dplyr::tibble(
+  Disco=c("Kill'Em All", "Ride the Lightning", "Master of Puppets",
+            "...And Justice For All", "Black Album", "Load", "ReLoad",
+            "Garage Inc.", "St. Anger", "Death Magnetic",
+            "Hardwired To Self Destruct"),
+  Capa=c("img/1-kill.jpg","img/2-ride.jpg","img/3-master.jpg",
+         "img/4-justice.jpg","img/5-black.jpg","img/6-load.jpg",
+         "img/7-reload.jpg", "img/8-garage.jpg","img/9-anger.jpg",
+         "img/10-death.jpg","img/11-hardwired.jpg"),
+  Ano=c(1983, 1984, 1986, 1988, 1991, 1996, 1997, 1998, 2003, 2008, 2016)
+) |> 
+  gt::gt() |> 
+  gt::tab_header(
+    title = gt::md("**Discografia do Metallica**"),
+    subtitle = gt::md("A banda começou seus anos mais revoltados com 'Kill`Em All', chegando até o mais recente 'Hardwired To Self Destruct'") 
+  ) |> 
+  gt::text_transform(
+    locations = gt::cells_body(Capa),
+    fn = function(x){
+      purrr::map_chr(x, ~ gt::local_image(
+        filename = .x,
+        height = 75
+      ))
+    }
+  )
+```
+
+Sem mais delongas, vamos ao trabalho!
+
+# Perguntas de interesse
+
+Antes de partirmos para as análises propriamente ditas, existem algumas perguntas que podem nos auxiliar a descrever o comportamento da banda ao longo dos anos no que diz respeito às suas turnês, shows e afins:
+
+1. Quais foram as turnês com mais shows? Quando ocorreram? Qual o tamanho médio dos shows da turnê? Quais turnês duraram mais tempo?
+2. Em quais países a banda fez mais shows?
+3. Qual disco foi o mais tocado pela banda?
+4. Quais foram as músicas mais tocadas pela banda?
+
+As seções desta análise estão divididas de maneira a cobrir essas questões de uma maneira mais conveniente:
+
+# Análise dos Dados
+
+## Turnês
+
+No banco de dados em estudo, temos turnês registradas até o ano de 2018; ao todo, são 30 turnês (sem contarmos os shows que não fizeram parte de nenhum itinerário desse tipo):
+
+```{r}
+# Tabela de todas as turnês
+
+metallica |> 
+  dplyr::filter(Tour!="None") |> 
+  dplyr::group_by(Tour) |> 
+  dplyr::summarise(`Data de Início:`=min(Date),
+                   `Data de Término`=max(Date)) |> 
+  dplyr::arrange(`Data de Início:`) |> 
+  gt::gt() |> 
+  gt::tab_header(
+    title=gt::md("**Lista de Turnês da banda Metallica**"),
+    subtitle=gt::md("A primeira ocorreu no ano de 1983 para a divulgação de seu disco de estréia")
+  ) |> 
+  gt::tab_footnote(
+    footnote = gt::md("Dados registrados até o ano de 2018; a turnê 'WorldWired' ainda está ocorrendo"),
+    locations = gt::cells_column_labels(
+      columns= Tour
+    )
+  ) |> 
+  gt::tab_options(
+    container.height = 500
+  )
+
+```
+
+Tendo em mente as 30 turnês apresentadas, é interessante pensarmos em quais delas possuem/possuíram maior duração. Ordenadas da maior para a menor turnê, no quesito duração em dias, temos que as 5 mais extensas foram:
+
+```{r}
+
+# Tabela das top 5 turnes por duração em dias
+
+metallica |> 
+  dplyr::filter(Tour!="None") |> 
+  dplyr::group_by(Tour) |> 
+  dplyr::summarise(`Duração em dias`=max(Date)-min(Date)) |> 
+  dplyr::arrange(desc(`Duração em dias`)) |> 
+  dplyr::top_n(5) |> 
+  gt::gt() |> 
+  gt::tab_header(
+    title=gt::md("**Top 5 turnês mais duradouras da banda Metallica**"),
+    subtitle=gt::md("A turnê 'WorldWired' tem tudo para bater ainda mais recordes, dito que ainda está ocorrendo no presente ano de 2021")
+  ) 
+
+```
+
+Outro destaque interessante vai para a turnê "Wherever We May Roam", ocorrida no início da década de 90 e tida como um dos pontos altos da banda, apenas superada recentemente pelas turnês "World Magnetic" e "WorldWired".
+
+Mas beleza, de nada adianta analisarmos única e exclusivamente a duração de uma turnê pela sua quantidade de dias, mas sim pela quantidade de shows e a quantidade média de dias entre cada show. É o que faremos agora:
+
+
+```{r}
+# Tabela das top 5 turnês por quantidade de shows
+
+metallica |> 
+  dplyr::filter(Tour!="None") |> 
+  dplyr::group_by(Tour) |> 
+  dplyr::summarise(`Quantidade de Shows`= dplyr::n()) |> 
+  dplyr::arrange(desc(`Quantidade de Shows`)) |> 
+  dplyr::top_n(5) |> 
+  gt::gt() |> 
+  gt::tab_header(
+    title=gt::md("**Top 5 turnês com mais shows da banda Metallica**"),
+    subtitle=gt::md("A lendária 'Wherever We May Roam' foi a maior de todas, com 229 shows")
+  ) 
+
+```
+
+Santa correria! Será que, com o passar do tempo, o ritmo continuou o mesmo ou os membros da banda se cansaram e preferiram ficar mais numa boa? A razão dias/show ao longo dos anos de carreira da banda é um bom indicador dessa questão. Iremos analisá-la de acordo com cada turnê e com cada ano:
+
+```{r}
+# Tabela das 5 turnês com menor razão dias/show por turnê
+
+mais_corrida <- metallica |> 
+  dplyr::filter(Tour!="None") |> 
+  dplyr::group_by(Tour) |> 
+  dplyr::summarise(`Razão Dias/Show`= round(
+    (max(Date)-min(Date))/dplyr::n(),digits=2
+  )) |> 
+  dplyr::arrange(`Razão Dias/Show`) |>
+  dplyr::top_n(-5) |> 
+  gt::gt() |> 
+  gt::as_raw_html()
+
+# Tabela das 5 turnês com maior razão dias/show por turnê
+
+menos_corrida <- metallica |> 
+  dplyr::filter(Tour!="None") |> 
+  dplyr::group_by(Tour) |> 
+  dplyr::summarise(`Razão Dias/Show`= round(
+    (max(Date)-min(Date))/dplyr::n(),digits=2
+  )) |> 
+  dplyr::arrange(desc(`Razão Dias/Show`)) |>
+  dplyr::top_n(5) |> 
+  gt::gt() |> 
+  gt::as_raw_html()
+
+data.frame(menos_corrida, mais_corrida) |> 
+  gt::gt() |> 
+  gt::fmt_markdown(columns = dplyr::everything()) |> 
+  gt::cols_label(menos_corrida = "Top 5 Turnês menos 'corridas'",
+                 mais_corrida = "Top 5 Turnês mais 'corridas'") |> 
+  gt::tab_header(
+    title = gt::md("**Turnês mais e menos 'corridas' da banda Metallica**"),
+    subtitle = gt::md("O ritmo mais pesado chegou a um show para cada 1,18 dias; o mais leve foi de um show para cada 9,78 dias")
+  )
+
+```
+
+
+No geral, as turnês Hell On Earth Tour e Kill'Em All for One foram as mais corridas para a banda no geral, com uma média de um show a cada 1.2 dias! Por coincidência, essas duas turnês aconteceram no início da década de 80, quando a banda estava na sua época mais jovem e, provavelmente, mais disposta.
+
+Por outro lado, quase todas as turnês mais tranquilas da banda fazem parte de épocas mais recentes, como é o caso da WorldWired e da Metallica By Request. Um destaque vai para a turnê Blitzkrieg '97, com aproximadamente um show a cada 10 dias.
+
+E quando à razão dias/show para cada ano?
+
+```{r}
+# Grafico da razao dias/show através dos anos
+
+razao_por_anos <- metallica |>
+  dplyr::mutate(Ano=Year) |>
+  dplyr::group_by(Ano) |>
+  dplyr::summarise(razao= round(
+    (max(Date)-min(Date))/dplyr::n(),digits=2
+  )) |>
+  ggplot2::ggplot(ggplot2::aes(x=Ano,y=razao))+
+  ggplot2::geom_line()+
+  ggplot2::theme_minimal()+
+  ggplot2::scale_x_continuous(breaks = seq(1980,2018,5))+
+  ggplot2::labs(x="Ano",y="Razão",
+                title="Razão Dias/Show através dos anos")
+
+razao_por_anos |> plotly::ggplotly()
+
+```
+
+O ano de 1995 foi o mais tranquilo para a banda no que diz respeito à quantidade de shows: em média, rolou apenas um show a cada 20 dias! O mais atarefado, no entanto, foi o ano de 2005, quando a banda possuiu a média próxima de um show por dia.
+
+Por fim quais foram as turnês com a maior quantidade média de músicas por set? E qual ano possui essa mesma quantidade média?
+
+```{r}
+# Tabela das 5 turnês com menor media musicas/show
+
+menor_sets <- metallica |> 
+  dplyr::filter(Tour!="None") |> 
+  dplyr::group_by(Tour) |> 
+  dplyr::summarise(`Média Músicas/Show`= round(
+    mean(Set_Length,na.rm=TRUE),digits=2
+  )) |> 
+  dplyr::arrange(`Média Músicas/Show`) |>
+  dplyr::top_n(-5) |> 
+  gt::gt() |> 
+  gt::as_raw_html()
+
+maior_sets <- metallica |> 
+  dplyr::filter(Tour!="None") |> 
+  dplyr::group_by(Tour) |> 
+  dplyr::summarise(`Média Músicas/Show`= round(
+    mean(Set_Length,na.rm=TRUE),digits=2
+  )) |> 
+  dplyr::arrange(desc(`Média Músicas/Show`)) |>
+  dplyr::top_n(5) |> 
+  gt::gt() |> 
+  gt::as_raw_html()
+
+data.frame(menor_sets, maior_sets) |> 
+  gt::gt() |> 
+  gt::fmt_markdown(columns = dplyr::everything()) |> 
+  gt::cols_label(menor_sets = "Top 5 Turnês com menores sets",
+                 maior_sets= "Top 5 Turnês com maiores sets") |> 
+  gt::tab_header(
+    title = gt::md("**Turnês com maior e menor quantidade média de músicas por set**"),
+    subtitle = gt::md("A turnê com maiores sets possuiu média de 22.46 músicas; a menor, média de 10.17.")
+  )
+
+```
+
+A turnê com menor média de músicas em seus sets foi a Seven Dates of Hell (10.17 músicas por show), seguida pela Kill'Em All for One (10.5 músicas por show) e outras. Estas duas merecem destaque por serem algumas das primeiras turnês da banda, quando sequer haviam músicas para serem tocadas.
+
+Por outro lado, a com maior média de músicas por set foi a turnê Nowhere Else to Roam (22.46 músicas por show), que ocorreu na época em que a banda teve seu maior boom em popularidade (algo próximo do início da década de 90, para sermos mais exatos), quando já possuíam um certo tempo de estrada e mais discos na bagagem.
+
+
+```{r}
+# Grafico da razao dias/show através dos anos
+
+musicas_por_anos <- metallica |>
+  dplyr::mutate(Ano=Year) |>
+  dplyr::group_by(Ano) |>
+  dplyr::summarise(`Média Músicas/Show`= round(
+    mean(Set_Length,na.rm=TRUE),digits=2
+  )) |>
+  ggplot2::ggplot(ggplot2::aes(x=Ano,y=`Média Músicas/Show`))+
+  ggplot2::geom_line()+
+  ggplot2::theme_minimal()+
+  ggplot2::scale_x_continuous(breaks = seq(1980,2018,5))+
+  ggplot2::labs(x="Ano",y="Média Músicas/Show",
+                title="Média de músicas por show através dos anos")
+
+musicas_por_anos |> plotly::ggplotly()
+
+```
+
+Aqui, observamos resultados parecidos: o ano de 1982 (primeiro ano de vida da banda) possuiu a menor média de músicas por show (8.85), isso provavelmente pelo fato da banda sequer ter lançado seu primeiro disco; o ano de 1993, coincidindo com a turnê Nowhere Else to Roam, possuiu a maior média (21.59 músicas por show). A partir do ano de 2006, a banda pareceu estabilizar essas métricas, sem shows muito pequenos ou muito grandes na média.
+
+## Ao Redor do Mundo
+
+### Breve explicação do código
+
+Para esta seção, foi utilizada a função `ggplot2::geom_map()` para plotarmos um gráfico com o número de shows dividido por cada país no mapa mundi. Para que esse processo funcionasse, no entanto, foi necessário criarmos um data frame com duas colunas: na primeira, o país; na segunda, o número de shows da banda Metallica que esse país já recebeu. Isso incluiu países com 0 shows, como podem ver abaixo:
+
+```{r}
+### Ao redor do mundo
+
+# Definindo mapa mundi
+mapa_mundo <- ggplot2::map_data("world")
+
+# Definindo operador not in
+`%notin%` <- Negate(`%in%`)
+
+# Países com shows do metallica
+data_sim <- metallica |> 
+  dplyr::group_by(Country) |> 
+  dplyr::summarise(n_shows=dplyr::n())
+
+# Países sem shows do metallica
+data_nao <- tidyr::tibble(
+  Country=unique(mapa_mundo$region),
+  n_shows=numeric(length(unique(mapa_mundo$region)))
+) |> 
+  dplyr::filter(Country %notin% data_sim$Country)
+
+# Juntando os dois bancos
+
+data_mundo <- dplyr::bind_rows(data_sim,data_nao)
+
+```
+
+O resultado foi um objeto que tornasse possível a plotagem do gráfico do mapa mundi com os dados necessários.
+
+### Resultado
+
+```{r}
+# Shows ao redor do mundo
+
+data_mundo |>
+  ggplot2::ggplot(ggplot2::aes(map_id=Country))+
+  ggplot2::geom_map(ggplot2::aes(fill=n_shows),
+                    map=mapa_mundo)+
+  ggplot2::expand_limits(x=mapa_mundo$long,y=mapa_mundo$lat)+
+  ggplot2::coord_map("mercator",xlim=c(-180,180))+
+  ggplot2::scale_fill_viridis_c()+
+  ggplot2::labs(fill="Número de Shows",
+                title="Número de Shows do Metallica \ndivididos por País")+
+  ggplot2::theme_void()
+
+```
+
+Acima, podemos ver que os EUA receberam a esmagadora maioria dos shows da banda, com outra parte destes ocorrendo no Canadá ou Europa. Para facilitar a visualização destes outros locais, convém plotarmos um gráfico retirando os dados dos países com maior destaque:
+
+```{r}
+# Shows ao redor do mundo (sem EUA e Canada)
+
+data_mundo |>
+  dplyr::mutate(
+    n_shows=ifelse(Country %in% c("USA","Canada"),
+                   0,
+                   n_shows)
+  ) |> 
+  ggplot2::ggplot(ggplot2::aes(map_id=Country))+
+  ggplot2::geom_map(ggplot2::aes(fill=n_shows),
+                    map=mapa_mundo)+
+  ggplot2::expand_limits(x=mapa_mundo$long,y=mapa_mundo$lat)+
+  ggplot2::coord_map("mercator",xlim=c(-180,180))+
+  ggplot2::scale_fill_viridis_c()+
+  ggplot2::labs(fill="Número de Shows",
+                title="Número de Shows do Metallica \ndivididos por País*",
+                subtitle = "*Sem EUA e Canadá")+
+  ggplot2::theme_void()
+
+```
+
+Agora ficou muito melhor: se não considerarmos os EUA e Canadá, temos que a Alemanha recebeu destaque nos shows realizados pela banda ao longo de sua carreira. Outros países que merecem uma menção honrosa são o Reino Unido, França e Austrália. Nosso Brasil, coitado, pareceu receber número pouco maior do que Rússia, estando relativamente próximo do número de shows no Méximo, por exemplo.
+
+## As mais tocadas
+
+### Discos
+
+Como vimos no início deste humilde trabalho, a banda Metallica possui 11 álbuns de estúdio (pelo menos até o ano de 2021). Destes álbuns, qual deles será o mais pedido pelos fãs (ou simplesmente o favorito da banda)? Por sorte, o banco de dados já nos fornece uma métrica que torna fácil a tarefa de encontrarmos essa resposta:
+
+```{r}
+## Discos mais tocados
+
+# Definindo tabela com resultados
+
+qtd_tocada <- dplyr::tibble(
+  disco=c("Kill'Em All", "Ride the Lightning", "Master of Puppets",
+            "...And Justice For All", "Black Album", "Load", "ReLoad",
+            "Garage Inc.", "St. Anger", "Death Magnetic",
+            "Hardwired To Self Destruct"),
+  capa=c("img/1-kill.jpg","img/2-ride.jpg","img/3-master.jpg",
+         "img/4-justice.jpg","img/5-black.jpg","img/6-load.jpg",
+         "img/7-reload.jpg", "img/8-garage.jpg","img/9-anger.jpg",
+         "img/10-death.jpg","img/11-hardwired.jpg"),
+  plays=purrr::map_dbl(metallica[,9:19], sum, na.rm=TRUE)
+)
+
+# Apresentando tabela
+
+qtd_tocada |> 
+  dplyr::arrange(dplyr::desc(plays)) |> 
+  gt::gt() |> 
+  gt::tab_header(
+    title = gt::md("**Discos mais tocados em shows do Metallica**"),
+    subtitle = gt::md("Para a surpresa de ninguém, o disco mais infame (St. Anger) também é o menos tocado") 
+  ) |> 
+  gt::cols_label(disco="Disco",capa="Capa", 
+                 plays="Vezes que foi tocado") |> 
+  gt::text_transform(
+    locations = gt::cells_body(capa),
+    fn = function(x){
+      purrr::map_chr(x, ~ gt::local_image(
+        filename = .x,
+        height = 75
+      ))
+    }
+  )
+
+```
+
+Curioso notarmos que os cinco discos mais tocados em shows são, justamente, os cinco discos da fase dita "clássica": ainda que existam ressalvas quanto ao Black Album, é inegável que estes contenham as músicas mais populares da banda. Depois deles, aparecem trabalhos de menor expressão como os injustiçados Load e ReLoad, com um destaque para o disco mais recente da banda (Hardwired) que só está na frente do St. Anger, álbum polêmico que este que vos fala se recusa a lembrar que existe.
+
+### Músicas
+
+Em último lugar, mas não menos importante, é interessante sabermos quais são as músicas mais tocadas pela banda em shows; será um resultado similar aos discos mais tocados ou algumas músicas mais recentes também são populares? Para respondermos essa pergunta, foram calculadas as 10 músicas mais tocadas através de todos os sets e encores da banda:
+
+```{r}
+# Separando sets e encores em musicas individuais
+
+sets <- metallica |>
+  dplyr::select(Set) |>
+  stringr::str_split(pattern = ",") |>
+  unlist() |>
+  stringr::str_replace_all("[[:punct:]]", "") |>
+  stringr::str_trim()
+
+sets[1] <- "Hardwired"
+
+encores <- metallica |>
+  dplyr::select(Encores) |>
+  stringr::str_split(pattern = ",") |>
+  unlist() |>
+  stringr::str_replace_all("[[:punct:]]", "") |>
+  stringr::str_trim()
+
+encores[1] <- "Spit Out The Bone"
+
+# Tibble com numero de vezes que cada musica foi tocada
+
+musicas_tocadas <- dplyr::tibble(
+  `Música`=c(sets,encores)
+) |>
+  dplyr::group_by(`Música`) |> 
+  dplyr::count() |> 
+  dplyr::filter(`Música` %notin% c("Rise","")) |> 
+  dplyr::arrange(dplyr::desc(n)) |> 
+  tibble::rowid_to_column("Colocação")
+
+# Apresentando top 10 mais tocadas
+
+musicas_tocadas[1:10,] |>
+  as.data.frame() |> 
+  gt::gt() |> 
+  gt::cols_align("center") |> 
+  gt::tab_header(
+    title = gt::md("**Músicas mais tocadas em shows do Metallica**"),
+    subtitle = gt::md("Música velha é que faz um set bom?"))
+
+```
+
+Acima, temos que **todas as músicas dentre as 10 mais tocadas em shows pertencem a, pelo menos, um dos cinco primeiros álbuns da banda**. A título de curiosidade, as mais recentes são Enter Sandman, Sad But True e Nothing Else Matters do "Black Album", lançado em 1991. Ainda que músicas mais recentes não sejam tão tocadas por terem menos tempo de existência, a diferença é gritante: sequer tivemos uma música de álbuns lançados após os anos 2000 figurando entre as mais populares.
+
+# Conclusão
+
+No que diz respeito às suas turnês:
+
+* A maior turnê do Metallica em dias de extensão é a WorldWired, e a em número de shows realizados é a Wherever We May Roam;
+* A turnê mais corrida de sua carreira foi a Hell On Earth Tour, e a menos corrida foi a BlitzKrieg '97 (da mesma forma, o ano mais "tranquilo" no geral foi 1995, enquanto que o menos tranquilo foi 2005);
+* A turnê com menor tamanho médio dos sets foi a Seven Dates of Hell, enquanto que a turnê com maior tamanho médio dos sets foi a Nowhere Else to Roam (da mesma forma, o ano com maior número médio de músicas por set foi 1993; o com menor foi 1982).
+
+Além disso, temos que a banda toca predominantemente em shows realizados na América do Norte ou Europa, com outros shows mais esparsos realizados na América Latina. 
+
+Também pudemos ver que seus álbuns e músicas mais tocados em shows foram lançados no início da carreira até 1991, no geral, com materiais lançados após esta época sendo menos populares.
+
+# Observações {.appendix}
+
+Este post foi inicialmente construído como o Trabalho de Conclusão do curso de R para Ciência de Dados II da [curso-r](https://curso-r.com). Seu repositório original pode ser verificado em [victordogo/trab-final-victordogo-r4ds2](https://github.com/victordogo/trab-final-victordogo-r4ds2).

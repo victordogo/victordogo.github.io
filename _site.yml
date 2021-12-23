@@ -4,6 +4,10 @@ description: |
   Projetos pessoais (a maioria com R) e coisas interessantes.
 base_url: https://victordogo.github.io
 preview: img/logo.png
+creative_commons: CC BY-SA
+twitter:
+  site: "@victor_dogo"
+  creator: "@victor_dogo"
 output_dir: "docs"
 favicon: img/favicon.ico
 navbar:
