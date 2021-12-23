@@ -3,4 +3,34 @@ title: "Sobre"
 ---
 
 
+Olá! Meu nome é Victor Dogo, atualmente estudante rumo ao título de Bacharel em Estatística pela UFSCar - Universidade Federal de São Carlos. Sou especialmente interessado em programação estatística usando R (foco de boa parte do que eu for postar aqui), mas aberto a muitas outras aplicações (atualmente, procurando aprender Julia).
 
+Neste site, procurarei manter informações relativas aos projetos em que eu esteja participando, posts interessantes que eu venha a escrever ou outras coisas igualmente interessantes mas que eventualmente não sejam relacionadas à Estatística ou Ciência de Dados.
+
+# `r fontawesome::fa(name="graduation-cap")` Formação Acadêmica
+
+### Bacharelado em Estatística - UFSCar: Universidade Federal de São Carlos
+
+* 2017 - Atualmente
+* Ênfase em Estatísticas Sociais
+
+# `r fontawesome::fa(name="university")` Experiência Universitária
+
+### SEst - Semana da Estatística UFSCar/USP (Membro da Comissão Organizadora)
+
+* 2018 - 2021
+* Atuei como Membro da Diretoria de Marketing (2018), Diretor de Marketing (2019), Membro da Diretoria de Cronograma (2020) e Vice-Presidente (2021)
+
+### EJE - Empresa Júnior de Estatística (Membro da Equipe de Operações)
+
+* 2017 - 2018
+* Fui membro das Diretorias de Comunicação (10/2017 até 01/2018 e
+07/2018 até 12/2018) e de Negócios (02/2018 até 06/2018)
+
+# `r fontawesome::fa(name="people-carry")` Voluntariado
+
+### Ordem DeMolay
+
+* Membro Ativo (2014 - 2020) e Membro Sênior (2020 - Atualmente)
+* Atuei como Ilustre Comendador Cavaleiro
+(08/2018 até 12/2018) e Mestre Conselheiro (01/2020 até 07/2020)
