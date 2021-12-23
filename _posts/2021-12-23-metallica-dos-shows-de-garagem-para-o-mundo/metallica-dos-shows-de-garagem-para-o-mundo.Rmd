@@ -6,6 +6,7 @@ author:
   - name: Victor Dogo
     url: https://www.linkedin.com/in/victordogo/
 date: 2021-12-23
+bibliography: ref.bib
 output:
   distill::distill_article:
     self_contained: true
@@ -20,15 +21,17 @@ knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
 
 # Introdução
 
-A banda Metallica surgiu no comecinho dos anos 80, inspirando-se na Nova Onda do Heavy Metal Britânico, uma corrente surgida anos antes e que compreende bandas como Iron Maiden, Judas Priest, Venom, Def Leppard, Motorhead e tantas outros nomes que, se você não estiver habituade, vão parecer mais nomes de Pokémon do que qualquer outra coisa. Mas o ponto não é esse!
+Uma de minhas bandas prediletas é a banda Metallica. Ela me introduziu pro mundo de cabelos longos e desgrenhados do heavy metal, universo que eu exploro até hoje (ainda que escute com bem menos frequência).
 
-Desde que surgiu, a banda revolucionou a música e deu base para todo um gênero, fazendo diversas turnês pelo mundo e sendo o [único conjunto/artista a ter tocado em todos os 7 continentes do mundo.](http://g1.globo.com/musica/noticia/2013/12/metallica-toca-abaixo-de-zero-em-show-inusitado-na-antartida.html). 
+A banda surgiu no comecinho dos anos 80, inspirando-se na Nova Onda do Heavy Metal Britânico, uma corrente surgida anos antes e que compreende bandas como Iron Maiden, Judas Priest, Venom, Def Leppard, Motorhead e tantas outros nomes que, se você não estiver habituade, vão parecer mais nomes de Pokémon do que qualquer outra coisa. Mas o ponto não é esse!
+
+Desde que surgiu, a banda revolucionou a música e deu base para todo um gênero, fazendo diversas turnês pelo mundo e sendo o único conjunto/artista a ter tocado em todos os 7 continentes [@efe_metallica_2013].
 
 Com tantos anos de estrada, é da curiosidade de alguém (como nós, estatísticos e cientistas de dados talvez) compreender em números como foram essas turnês, em que locais seus shows ocorreram e outras características de interesse.
 
 # O Banco de Dados
 
-O banco de dados utilizado para este trabalho encontra-se disponível no Kaggle, e chama-se [Metallica Tour History](https://www.kaggle.com/kitsamho/metallica-tour-history). A base, após a limpeza, consiste em 23 atributos de 2070 shows feitos pela banda ao longo do tempo. As variáveis presentes são:
+O banco de dados utilizado para este trabalho encontra-se disponível no Kaggle, e chama-se Metallica Tour History [@samho_metallica_nodate]. A base, após a limpeza, consiste em 23 atributos de 2070 shows feitos pela banda ao longo do tempo. As variáveis presentes são:
 
 * **Date:** Data do show no formato "aaaa-mm-dd";
 * **Year:** Ano de ocorrência do show;
@@ -272,7 +275,7 @@ data.frame(menor_sets, maior_sets) |>
 
 ```
 
-A turnê com menor média de músicas em seus sets foi a Seven Dates of Hell (10.17 músicas por show), seguida pela Kill'Em All for One (10.5 músicas por show) e outras. Estas duas merecem destaque por serem algumas das primeiras turnês da banda, quando sequer haviam músicas para serem tocadas.
+A turnê com menor média de músicas em seus sets foi a Seven Dates of Hell (10.17 músicas por show), seguida pela Kill'Em All for One (10.5 músicas por show) e outras. Estas duas merecem destaque por serem algumas das primeiras turnês da banda, quando haviam poucas músicas autorais para serem tocadas.
 
 Por outro lado, a com maior média de músicas por set foi a turnê Nowhere Else to Roam (22.46 músicas por show), que ocorreu na época em que a banda teve seu maior boom em popularidade (algo próximo do início da década de 90, para sermos mais exatos), quando já possuíam um certo tempo de estrada e mais discos na bagagem.
 
@@ -303,7 +306,7 @@ Aqui, observamos resultados parecidos: o ano de 1982 (primeiro ano de vida da ba
 
 ### Breve explicação do código
 
-Para esta seção, foi utilizada a função `ggplot2::geom_map()` para plotarmos um gráfico com o número de shows dividido por cada país no mapa mundi. Para que esse processo funcionasse, no entanto, foi necessário criarmos um data frame com duas colunas: na primeira, o país; na segunda, o número de shows da banda Metallica que esse país já recebeu. Isso incluiu países com 0 shows, como podem ver abaixo:
+Para esta seção, foi utilizada a função `ggplot2::geom_map()` [@noauthor_polygons_nodate] para plotarmos um gráfico com o número de shows dividido por cada país no mapa mundi. Para que esse processo funcionasse, no entanto, foi necessário criarmos um data frame com duas colunas: na primeira, o país; na segunda, o número de shows da banda Metallica que esse país já recebeu. Isso incluiu países com 0 shows, como podem ver abaixo:
 
 ```{r}
 ### Ao redor do mundo
@@ -328,7 +331,31 @@ data_nao <- tidyr::tibble(
 
 # Juntando os dois bancos
 
-data_mundo <- dplyr::bind_rows(data_sim,data_nao)
+data_mundo <- dplyr::bind_rows(data_sim,data_nao) |> 
+  dplyr::mutate(
+    n_shows = dplyr::case_when(
+      n_shows>=0 & n_shows<=15 ~ "0 <= n <= 15",
+      n_shows>15 & n_shows<=30 ~ "15 < n <= 30",
+      n_shows>30 & n_shows <= 45 ~ "30 < n <= 45",
+      n_shows>45 & n_shows <= 60 ~ "45 < n <= 60",
+      n_shows>60 & n_shows <= 75 ~ "60 < n <= 75",
+      n_shows>75 & n_shows <= 90 ~ "75 < n <= 90",
+      n_shows>90 & n_shows <= 105 ~ "90 < n <= 105",
+      n_shows>105 & n_shows <= 120 ~ "105 < n <= 120",
+      n_shows>120 ~ "n > 120"
+    )
+  ) |> 
+  dplyr::mutate(
+    n_shows = factor(n_shows, levels=c("0 <= n <= 15",
+                                       "15 < n <= 30",
+                                       "30 < n <= 45",
+                                       "45 < n <= 60",
+                                       "60 < n <= 75",
+                                       "75 < n <= 90",
+                                       "90 < n <= 105",
+                                       "105 < n <= 120",
+                                       "n > 120"))
+  )
 
 ```
 
@@ -345,44 +372,20 @@ data_mundo |>
                     map=mapa_mundo)+
   ggplot2::expand_limits(x=mapa_mundo$long,y=mapa_mundo$lat)+
   ggplot2::coord_map("mercator",xlim=c(-180,180))+
-  ggplot2::scale_fill_viridis_c()+
+  ggplot2::scale_fill_viridis_d()+
   ggplot2::labs(fill="Número de Shows",
                 title="Número de Shows do Metallica \ndivididos por País")+
   ggplot2::theme_void()
 
 ```
 
-Acima, podemos ver que os EUA receberam a esmagadora maioria dos shows da banda, com outra parte destes ocorrendo no Canadá ou Europa. Para facilitar a visualização destes outros locais, convém plotarmos um gráfico retirando os dados dos países com maior destaque:
-
-```{r}
-# Shows ao redor do mundo (sem EUA e Canada)
-
-data_mundo |>
-  dplyr::mutate(
-    n_shows=ifelse(Country %in% c("USA","Canada"),
-                   0,
-                   n_shows)
-  ) |> 
-  ggplot2::ggplot(ggplot2::aes(map_id=Country))+
-  ggplot2::geom_map(ggplot2::aes(fill=n_shows),
-                    map=mapa_mundo)+
-  ggplot2::expand_limits(x=mapa_mundo$long,y=mapa_mundo$lat)+
-  ggplot2::coord_map("mercator",xlim=c(-180,180))+
-  ggplot2::scale_fill_viridis_c()+
-  ggplot2::labs(fill="Número de Shows",
-                title="Número de Shows do Metallica \ndivididos por País*",
-                subtitle = "*Sem EUA e Canadá")+
-  ggplot2::theme_void()
-
-```
-
-Agora ficou muito melhor: se não considerarmos os EUA e Canadá, temos que a Alemanha recebeu destaque nos shows realizados pela banda ao longo de sua carreira. Outros países que merecem uma menção honrosa são o Reino Unido, França e Austrália. Nosso Brasil, coitado, pareceu receber número pouco maior do que Rússia, estando relativamente próximo do número de shows no Méximo, por exemplo.
+Acima, podemos ver que os EUA receberam a esmagadora maioria dos shows da banda, com outra parte destes ocorrendo no Canadá ou Europa. Também temos que a Alemanha recebeu destaque nos shows realizados pela banda ao longo de sua carreira. Outros países que merecem uma menção honrosa são o Reino Unido, França e Austrália. Nosso Brasil, ainda que tenha se destacado, recebeu um número relativamente pequeno de shows, estando próximo de países como o México e Suécia.
 
 ## As mais tocadas
 
 ### Discos
 
-Como vimos no início deste humilde trabalho, a banda Metallica possui 11 álbuns de estúdio (pelo menos até o ano de 2021). Destes álbuns, qual deles será o mais pedido pelos fãs (ou simplesmente o favorito da banda)? Por sorte, o banco de dados já nos fornece uma métrica que torna fácil a tarefa de encontrarmos essa resposta:
+Como vimos no início deste humilde post, a banda Metallica possui 11 álbuns de estúdio (pelo menos até o ano de 2021). Destes álbuns, qual deles será o mais pedido pelos fãs (ou simplesmente o favorito da banda)? Por sorte, o banco de dados já nos fornece uma métrica que torna fácil a tarefa de encontrarmos essa resposta:
 
 ```{r}
 ## Discos mais tocados
