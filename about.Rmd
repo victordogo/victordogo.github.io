@@ -51,3 +51,8 @@ Neste site, procurarei manter informações relativas aos projetos em que eu est
 
 * Ainda que este hobby esteja meio largado, gosto muito de RPGs de Mesa (sendo mestre ou jogador);
 * **Sistemas Favoritos:** D&D 5e, Terra Devastada, Tiny Dungeon e (futuramente) Avatar Legends.
+
+### `r fontawesome::fa(name="music")` Música
+
+* Como 99,99% da população mundial, escuto música de vez em quando, e adoro fazer isso enquanto relaxo, faço tarefas domésticas ou estudo (aceito indicações, inclusive!);
+* **Gêneros Musicais Favoritos:** Power/Thrash/Death Metal, City Pop, Vaporwave, Sertanejo e Trilhas Sonoras.
