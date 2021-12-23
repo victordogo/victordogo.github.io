@@ -1,3 +1,36 @@
 ---
 title: "Projetos"
 ---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = FALSE)
+
+```
+
+```{r include=FALSE}
+
+library(htmltools)
+source("R/create_proj_card.R")
+
+```
+
+```{r}
+create_proj_card(
+  img_src = "img/projects/bradfordr.png",
+  url = "https://victordogo.github.io/bradfordr/",
+  title = "{bradfordr}",
+  text = "O pacote {bradfordr} consiste na implementação de funções de probabilidade da Distribuição Padronizada de Bradford nos mesmos do pacote {stats}.",
+  text2 = NULL
+)
+
+create_proj_card(
+  img_src = "img/projects/covid.png",
+  url = "https://victordogo.github.io/covid19-sorocaba/",
+  title = "Análise da COVID-19 na cidade de Sorocaba",
+  text = "O projeto consiste na construção de um dashboard estático utilizando o pacote {flexdashboard}. Ele é feito sob fomento da ProEx - Pró-Reitoria de Extensão da UFSCar e orientado pela Profa. Dra. Andreza Aparecida Palma.",
+  text2 = NULL
+)
+
+```
+

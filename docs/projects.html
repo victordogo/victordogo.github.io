@@ -1835,6 +1835,57 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     font-family:"JetBrains Mono" ;
   }
 
+  /*
+  For project cards
+  Adapted from Ijeamaka Anyene
+  https://github.com/Ijeamakaanyene/ijeamaka-anyene
+  https://ijeamaka-anyene.netlify.app
+  */
+
+  .card {
+      color: #474747;
+      background-color: #FFFFFF;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      border-radius: 10px;
+      margin: 16px 16px;
+      text-decoration: none;
+      display: flex;
+  }
+
+  .card-body {
+    padding: 2px 16px;
+  }
+
+  .card-img {
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    border-radius: 30px;
+  }
+
+  .card-footer {
+    background-color: #000;
+    color: white;
+    text-align: right;
+    padding-right: 5px;
+  }
+
+
+  @media screen and (max-width: 992px) {
+    .card {
+      color: #474747;
+      background-color: #FFFFFF;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      border-radius: 10px;
+      margin: 16px 16px;
+      text-decoration: none;
+      display: block;
+      width: 300px;
+    }
+
+  }
 
   </style>
   <!--/radix_placeholder_site_in_header-->
@@ -1886,6 +1937,32 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
 <div class="d-article">
+<div class="layout-chunk" data-layout="l-body">
+<div class="card">
+<img class="card-img-top" src="img/projects/bradfordr.png" style="width:300px;"/>
+<div class="card-body">
+<h4>
+<a href="https://victordogo.github.io/bradfordr/">{bradfordr}</a>
+</h4>
+<p class="card-text">
+O pacote {bradfordr} consiste na implementação de funções de probabilidade da Distribuição Padronizada de Bradford nos mesmos do pacote {stats}.
+<br/>
+</p>
+</div>
+</div>
+<div class="card">
+<img class="card-img-top" src="img/projects/covid.png" style="width:300px;"/>
+<div class="card-body">
+<h4>
+<a href="https://victordogo.github.io/covid19-sorocaba/">Análise da COVID-19 na cidade de Sorocaba</a>
+</h4>
+<p class="card-text">
+O projeto consiste na construção de um dashboard estático utilizando o pacote {flexdashboard}. Ele é feito sob fomento da ProEx - Pró-Reitoria de Extensão da UFSCar e orientado pela Profa. Dra. Andreza Aparecida Palma.
+<br/>
+</p>
+</div>
+</div>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
