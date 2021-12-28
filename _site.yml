@@ -9,7 +9,7 @@ twitter:
   site: "@victor_dogo"
   creator: "@victor_dogo"
 output_dir: "docs"
-favicon: img/favicon.ico
+favicon: img/favicon.png
 navbar:
   logo:
     image: img/logo.png
