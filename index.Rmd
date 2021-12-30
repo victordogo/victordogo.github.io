@@ -1,7 +1,7 @@
 ---
 title: "Victor Dogo"
 image: "img/profile.png"
-favicon: img/favicon.ico
+favicon: img/favicon.png
 links:
   - label: '<i class="fab fa-linkedin"></i> LinkedIn'
     url: "https://www.linkedin.com/in/victordogo/"
