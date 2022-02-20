@@ -2,38 +2,26 @@
 title: "Sobre"
 ---
 
+Meu currículo em português pode ser acessado [aqui](cv/cv-victordogo.pdf).
+
+My english CV can be accessed [here](cv/cv-en-victordogo.pdf).
 
 Olá! Meu nome é Victor Dogo, atualmente estudante rumo ao título de Bacharel em Estatística pela UFSCar - Universidade Federal de São Carlos. Sou especialmente interessado em programação estatística usando R (foco de boa parte do que eu for postar aqui), mas aberto a muitas outras aplicações (atualmente, procurando aprender Julia).
 
 Neste site, procurarei manter informações relativas aos projetos em que eu esteja participando, posts interessantes que eu venha a escrever ou outras coisas igualmente interessantes mas que eventualmente não sejam relacionadas à Estatística ou Ciência de Dados.
 
+
 # `r fontawesome::fa(name="graduation-cap")` Formação Acadêmica
 
-### Bacharelado em Estatística - UFSCar: Universidade Federal de São Carlos
+Sou graduando do curso de Estatística na UFSCar - Universidade Federal de São Carlos, campus São Carlos, ingresso em 2017. Foi aqui que me descobri como uma pessoa apaixonada por uma mentalidade data-driven e por técnicas que possam aprofundar nossos conhecimentos e decisões através de técnicas sólidas baseadas em estatística e ciência de dados.
 
-* 2017 - Atualmente;
-* Ênfase em Estatísticas Sociais.
+Fiz parte da comissão organizadora da Semana da Estatística UFSCar/USP entre 2017 e 2021, bem como parte da equipe de operações da EJE - Empresa Júnior de Estatística da UFSCar. Estes dois projetos me deram uma noção importantíssima de como a base teórica que temos em sala de aula se aplica em contextos dos mais diversos, desde pesquisas acadêmicas até aplicações no mercado financeiro.
 
-# `r fontawesome::fa(name="university")` Experiência Universitária
-
-### SEst - Semana da Estatística UFSCar/USP (Membro da Comissão Organizadora)
-
-* 2018 - 2021;
-* Atuei como Membro da Diretoria de Marketing (2018), Diretor de Marketing (2019), Membro da Diretoria de Cronograma (2020) e Vice-Presidente (2021).
-
-### EJE - Empresa Júnior de Estatística (Membro da Equipe de Operações)
-
-* 2017 - 2018;
-* Fui membro das Diretorias de Comunicação (10/2017 até 01/2018 e
-07/2018 até 12/2018) e de Negócios (02/2018 até 06/2018).
+![Foto da comissão organizadora da SEst no natal de 2018 (estou no canto superior esquerdo, com cabelo levemente grande :D)](img/sest-natal.jpg)
 
 # `r fontawesome::fa(name="people-carry")` Voluntariado
 
-### Ordem DeMolay
-
-* Membro Ativo (2014 - 2020) e Membro Sênior (2020 - Atualmente)
-* Atuei como Ilustre Comendador Cavaleiro;
-(08/2018 até 12/2018) e Mestre Conselheiro (01/2020 até 07/2020).
+Faço parte da Ordem DeMolay desde 2014 até os dias de hoje. Meu tempo tanto como membro ativo (2014-2020) e membro sênior (2021-atualmente) me trouxe um panorama importante da necessidade de uma mentalidade voltada ao social para qualquer situação em que nos encontramos. Aqui fiz irmãos, ajudamos pessoas e instituições de nossa cidade, assim fazendo crescer minha consciência e maturidade para o mundo.
 
 # `r fontawesome::fa(name="smile-beam")` Hobbies
 
